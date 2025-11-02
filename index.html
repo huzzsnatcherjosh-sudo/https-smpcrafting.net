@@ -153,6 +153,27 @@
             transform: translateY(0);
         }
 
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+        }
+
+        .btn-danger {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            border: 2px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: rgba(244, 67, 54, 0.3);
+        }
+
         /* Features */
         .features {
             display: grid;
@@ -238,61 +259,74 @@
             font-size: 0.9rem;
         }
 
-        /* Server list */
-        .server-list {
+        /* Server management */
+        .server-management {
+            margin: 2rem 0;
+        }
+
+        .server-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* My servers list */
+        .my-servers {
             margin: 4rem 0;
         }
 
-        .server-list h2 {
+        .my-servers h2 {
             text-align: center;
             margin-bottom: 2.5rem;
             font-size: 2rem;
         }
 
-        .server-item {
+        .server-card {
             background: var(--bg-card);
             padding: 2rem;
             margin-bottom: 1.5rem;
             border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             border: 1px solid var(--border);
             transition: all 0.3s ease;
         }
 
-        .server-item:hover {
+        .server-card:hover {
             border-color: var(--primary);
             transform: translateX(10px);
         }
 
-        .server-info h4 {
+        .server-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .server-header h4 {
             font-size: 1.3rem;
-            margin-bottom: 0.5rem;
             color: var(--primary);
         }
 
-        .server-info p {
-            color: var(--text-secondary);
+        .server-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .server-status {
-            padding: 0.5rem 1.5rem;
-            border-radius: 20px;
-            font-weight: 600;
+        .server-detail {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .server-detail label {
             font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.2rem;
         }
 
-        .status-online {
-            background: rgba(76, 175, 80, 0.2);
-            color: #4CAF50;
-            border: 1px solid rgba(76, 175, 80, 0.3);
-        }
-
-        .status-offline {
-            background: rgba(244, 67, 54, 0.2);
-            color: #f44336;
-            border: 1px solid rgba(244, 67, 54, 0.3);
+        .server-detail span {
+            font-weight: 500;
         }
 
         /* Footer */
@@ -338,11 +372,47 @@
                 grid-template-columns: 1fr;
             }
             
-            .server-item {
+            .server-controls {
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
             }
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 2000;
+            max-width: 350px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-color: var(--primary);
+        }
+
+        .notification.error {
+            border-color: #f44336;
+        }
+
+        .notification h4 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .notification p {
+            color: var(--text-secondary);
+            margin: 0;
         }
     </style>
 </head>
@@ -353,7 +423,7 @@
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#create">Create Server</a></li>
-                <li><a href="#servers">My Servers</a></li>
+                <li><a href="#my-servers">My Servers</a></li>
                 <li><a href="#about">About</a></li>
             </ul>
         </nav>
@@ -430,28 +500,10 @@
             </form>
         </section>
 
-        <section id="servers" class="server-list">
-            <h2>Active Servers</h2>
-            <div class="server-item">
-                <div class="server-info">
-                    <h4>EpicCraft SMP</h4>
-                    <p>epiccraft.freecraftsmp.com | Version: 1.20.4 | Players: 15/∞</p>
-                </div>
-                <span class="server-status status-online">Online</span>
-            </div>
-            <div class="server-item">
-                <div class="server-info">
-                    <h4>Pixel Dreams</h4>
-                    <p>pixeldreams.freecraftsmp.com | Version: 1.19.4 | Players: 8/∞</p>
-                </div>
-                <span class="server-status status-online">Online</span>
-            </div>
-            <div class="server-item">
-                <div class="server-info">
-                    <h4>SkyBlock Paradise</h4>
-                    <p>skyblock.freecraftsmp.com | Version: 1.20.1 | Players: 0/∞</p>
-                </div>
-                <span class="server-status status-offline">Offline</span>
+        <section id="my-servers" class="my-servers">
+            <h2>My Servers</h2>
+            <div id="serversList">
+                <p style="text-align: center; color: var(--text-secondary);">No servers created yet. Create your first server above!</p>
             </div>
         </section>
     </main>
@@ -469,6 +521,9 @@
     </footer>
 
     <script>
+        // Server storage
+        let servers = JSON.parse(localStorage.getItem('freecraftServers')) || [];
+
         // Header scroll effect
         window.addEventListener('scroll', () => {
             const header = document.querySelector('header');
@@ -478,6 +533,23 @@
                 header.classList.remove('scrolled');
             }
         });
+
+        // Notification system
+        function showNotification(title, message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <h4>${title}</h4>
+                <p>${message}</p>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
 
         // Form submission
         document.getElementById('serverForm').addEventListener('submit', function(e) {
@@ -490,20 +562,134 @@
             submitBtn.textContent = 'Creating Server...';
             submitBtn.disabled = true;
             
+            // Simulate server creation
             setTimeout(() => {
                 const serverName = document.getElementById('serverName').value;
                 const customIP = document.getElementById('customIP').value;
                 const version = document.getElementById('minecraftVersion').value;
                 const type = document.getElementById('serverType').value;
                 
-                alert(`🎉 Server "${serverName}" has been created!\n\n📡 Server Address: ${customIP}.freecraftsmp.com\n🎮 Version: ${version}\n⚙️ Type: ${type}\n\nYour server will be ready in approximately 60 seconds.`);
+                // Validate custom IP (alphanumeric and hyphens only)
+                if (!/^[a-zA-Z0-9-]+$/.test(customIP)) {
+                    showNotification('Invalid Address', 'Server address can only contain letters, numbers, and hyphens.', 'error');
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    return;
+                }
                 
-                // Reset button
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
+                // Check if address already exists
+                if (servers.some(s => s.address === `${customIP}.freecraftsmp.com`)) {
+                    showNotification('Address Taken', 'This server address is already in use. Please choose another.', 'error');
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    return;
+                }
+                
+                // Create server object
+                const newServer = {
+                    id: Date.now(),
+                    name: serverName,
+                    address: `${customIP}.freecraftsmp.com`,
+                    version: version,
+                    type: type,
+                    status: 'online',
+                    players: 0,
+                    maxPlayers: '∞',
+                    created: new Date().toISOString(),
+                    port: 25565 + servers.length // Simulate different ports
+                };
+                
+                // Add to servers array
+                servers.push(newServer);
+                
+                // Save to localStorage
+                localStorage.setItem('freecraftServers', JSON.stringify(servers));
+                
+                // Show success notification
+                showNotification('Server Created!', `Your server "${serverName}" is now running at ${newServer.address}`, 'success');
+                
+                // Reset form
                 this.reset();
+                
+                // Update servers list
+                renderServersList();
+                
+                // Scroll to my servers
+                document.getElementById('my-servers').scrollIntoView({ behavior: 'smooth' });
+                
             }, 2000);
         });
+
+        // Render servers list
+        function renderServersList() {
+            const serversList = document.getElementById('serversList');
+            
+            if (servers.length === 0) {
+                serversList.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No servers created yet. Create your first server above!</p>';
+                return;
+            }
+            
+            serversList.innerHTML = servers.map(server => `
+                <div class="server-card" data-server-id="${server.id}">
+                    <div class="server-header">
+                        <h4>${server.name}</h4>
+                        <span class="server-status status-${server.status}">${server.status.toUpperCase()}</span>
+                    </div>
+                    <div class="server-details">
+                        <div class="server-detail">
+                            <label>Server Address</label>
+                            <span>${server.address}</span>
+                        </div>
+                        <div class="server-detail">
+                            <label>Version</label>
+                            <span>${server.version}</span>
+                        </div>
+                        <div class="server-detail">
+                            <label>Type</label>
+                            <span>${server.type}</span>
+                        </div>
+                        <div class="server-detail">
+                            <label>Players</label>
+                            <span>${server.players}/${server.maxPlayers}</span>
+                        </div>
+                        <div class="server-detail">
+                            <label>Port</label>
+                            <span>${server.port}</span>
+                        </div>
+                    </div>
+                    <div class="server-controls">
+                        <button class="btn btn-secondary" onclick="toggleServer(${server.id})">
+                            ${server.status === 'online' ? 'Stop Server' : 'Start Server'}
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteServer(${server.id})">
+                            Delete Server
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Toggle server status
+        function toggleServer(serverId) {
+            const server = servers.find(s => s.id === serverId);
+            if (server) {
+                server.status = server.status === 'online' ? 'offline' : 'online';
+                localStorage.setItem('freecraftServers', JSON.stringify(servers));
+                renderServersList();
+                showNotification('Server Updated', `${server.name} is now ${server.status}`, 'success');
+            }
+        }
+
+        // Delete server
+        function deleteServer(serverId) {
+            const server = servers.find(s => s.id === serverId);
+            if (server && confirm(`Are you sure you want to delete "${server.name}"? This action cannot be undone.`)) {
+                servers = servers.filter(s => s.id !== serverId);
+                localStorage.setItem('freecraftServers', JSON.stringify(servers));
+                renderServersList();
+                showNotification('Server Deleted', `${server.name} has been permanently deleted.`, 'success');
+            }
+        }
 
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -518,6 +704,9 @@
                 }
             });
         });
+
+        // Initialize
+        renderServersList();
     </script>
 </body>
 </html>
